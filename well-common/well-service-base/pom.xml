@@ -3,12 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>well-service</artifactId>
+        <artifactId>well-common</artifactId>
         <groupId>com.lnzz</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>well-service-edu</artifactId>
+    <artifactId>well-service-base</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.lnzz</groupId>
+            <artifactId>well-common-utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
