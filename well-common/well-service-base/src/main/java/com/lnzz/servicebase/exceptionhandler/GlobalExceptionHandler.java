@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GlobalExceptionHandler {
 
     /**
+     * 全局异常
+     *
      * @param e
      * @return
      */
@@ -26,4 +28,19 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         return JsonResult.error().message("执行了全局异常处理..");
     }
+
+    /**
+     * 自定义异常
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(WellParamException.class)
+    @ResponseBody
+    public JsonResult error(WellParamException e) {
+        e.printStackTrace();
+        return JsonResult.error().code(e.getCode()).message(e.getMsg());
+    }
+
+
 }
