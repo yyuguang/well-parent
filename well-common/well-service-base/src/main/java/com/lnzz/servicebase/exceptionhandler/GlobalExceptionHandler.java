@@ -1,6 +1,7 @@
 package com.lnzz.servicebase.exceptionhandler;
 
 import com.lnzz.commonutils.JsonResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Description
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     /**
@@ -25,6 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public JsonResult error(Exception e) {
+        log.error(e.getMessage());
         e.printStackTrace();
         return JsonResult.error().message("执行了全局异常处理..");
     }
@@ -38,6 +41,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WellParamException.class)
     @ResponseBody
     public JsonResult error(WellParamException e) {
+        log.error(e.getMessage());
         e.printStackTrace();
         return JsonResult.error().code(e.getCode()).message(e.getMsg());
     }
