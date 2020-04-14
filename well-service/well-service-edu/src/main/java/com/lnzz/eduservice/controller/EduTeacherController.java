@@ -63,9 +63,9 @@ public class EduTeacherController extends BaseController {
     @ApiOperation(value = "讲师数据分页查询", notes = "讲师数据分页查询", httpMethod = "GET")
     @GetMapping("/page")
     public JsonResult page(@ApiParam(name = "pageNum", value = "页数", required = false)
-                           @RequestParam Integer pageNum,
+                           @RequestParam("pageNum") Integer pageNum,
                            @ApiParam(name = "pageSize", value = "每页显示条数", required = false)
-                           @RequestParam Integer pageSize) {
+                           @RequestParam("pageSize") Integer pageSize) {
 
         if (pageNum == null) {
             pageNum = 1;
@@ -79,18 +79,18 @@ public class EduTeacherController extends BaseController {
         eduTeacherService.page(page, null);
 
         long total = page.getTotal();
-        List<EduTeacher> records = page.getRecords();
+        List<EduTeacher> rows = page.getRecords();
 
-        return JsonResult.ok().data("total", total).data("records", records);
+        return JsonResult.ok().data("total", total).data("rows", rows);
     }
 
     @ApiOperation(value = "讲师数据条件分页查询", notes = "讲师数据条件分页查询", httpMethod = "GET")
-    @GetMapping("/pageByKeys")
+    @PostMapping("/pageByKeys/{pageNum}/{pageSize}")
     public JsonResult pageByKeys(@ApiParam(name = "pageNum", value = "页数", required = false)
-                                 @RequestParam Integer pageNum,
+                                 @PathVariable Integer pageNum,
                                  @ApiParam(name = "pageSize", value = "每页显示条数", required = false)
-                                 @RequestParam Integer pageSize,
-                                 EduTeacherQueryVo teacherQueryVo) {
+                                 @PathVariable Integer pageSize,
+                                 @RequestBody(required = false) EduTeacherQueryVo teacherQueryVo) {
         if (pageNum == null) {
             pageNum = 1;
         }
@@ -103,9 +103,9 @@ public class EduTeacherController extends BaseController {
         eduTeacherService.pageByKeys(teacherPage, teacherQueryVo);
 
         long total = teacherPage.getTotal();
-        List<EduTeacher> records = teacherPage.getRecords();
+        List<EduTeacher> rows = teacherPage.getRecords();
 
-        return JsonResult.ok().data("total", total).data("records", records);
+        return JsonResult.ok().data("total", total).data("rows", rows);
     }
 
     @ApiOperation(value = "通过id获取单条记录", notes = "通过id获取单条记录", httpMethod = "GET")
