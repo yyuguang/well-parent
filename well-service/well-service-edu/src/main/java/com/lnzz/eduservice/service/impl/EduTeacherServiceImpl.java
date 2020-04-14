@@ -25,7 +25,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     public void pageByKeys(Page<EduTeacher> pageParam, EduTeacherQueryVo teacherQueryVo) {
         QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
 
-        wrapper.orderByAsc("sort");
+        wrapper.orderByDesc("gmt_create");
 
         if (teacherQueryVo == null) {
             baseMapper.selectPage(pageParam, wrapper);

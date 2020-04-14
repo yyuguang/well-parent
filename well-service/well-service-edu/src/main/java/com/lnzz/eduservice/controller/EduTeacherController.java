@@ -54,7 +54,7 @@ public class EduTeacherController extends BaseController {
 
     @ApiOperation(value = "根据id逻辑删除讲师", notes = "根据id逻辑删除讲师", httpMethod = "DELETE")
     @DeleteMapping("/delete/{id}")
-    public JsonResult removeById(@ApiParam(name = "id", value = "讲师id", required = true)
+    public JsonResult delete(@ApiParam(name = "id", value = "讲师id", required = true)
                                  @PathVariable String id) {
         boolean flag = eduTeacherService.removeById(id);
         return flag ? JsonResult.ok() : JsonResult.error();
