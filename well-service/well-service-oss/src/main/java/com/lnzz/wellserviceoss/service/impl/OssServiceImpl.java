@@ -4,11 +4,13 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.lnzz.wellserviceoss.service.OssService;
 import com.lnzz.wellserviceoss.utils.ConstantPropertiesUtils;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.UUID;
 
 /**
  * ClassName：OssServiceImpl
@@ -38,6 +40,14 @@ public class OssServiceImpl implements OssService {
             //获取文件名称
             String fileName = file.getOriginalFilename();
 
+            String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+
+            fileName = uuid + fileName;
+
+            String datePath = new DateTime().toString("yyyy/MM/dd");
+
+            fileName = datePath + "/" + fileName;
+
             //调用oss实现上传
             ossClient.putObject(bucketName, fileName, inputStream);
 
@@ -45,7 +55,7 @@ public class OssServiceImpl implements OssService {
             ossClient.shutdown();
 
             //手动拼接字符串返回地址
-            String url ="https://"+bucketName+"."+endpoint+"/"+fileName;
+            String url = "https://" + bucketName + "." + endpoint + "/" + fileName;
             return url;
         } catch (Exception e) {
             e.printStackTrace();
