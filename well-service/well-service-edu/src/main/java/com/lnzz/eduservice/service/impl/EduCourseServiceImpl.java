@@ -45,11 +45,37 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         String eduCourseId = eduCourse.getId();
 
         //2.向课程简介表添加课程简介
-
         EduCourseDescription courseDescription = new EduCourseDescription();
         courseDescription.setId(eduCourseId);
         courseDescription.setDescription(courseInfoVo.getDescription());
         descriptionService.save(courseDescription);
         return eduCourseId;
+    }
+
+    @Override
+    public EduCourseInfoVo getCourseInfo(String courseId) {
+        EduCourse eduCourse = baseMapper.selectById(courseId);
+        EduCourseInfoVo courseInfoVo = new EduCourseInfoVo();
+        BeanUtils.copyProperties(eduCourse, courseInfoVo);
+
+        EduCourseDescription courseDescription = descriptionService.getById(courseId);
+        courseInfoVo.setDescription(courseDescription.getDescription());
+
+        return courseInfoVo;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Override
+    public void updateCourseInfo(EduCourseInfoVo eduCourseInfoVo) {
+        EduCourse eduCourse = new EduCourse();
+        BeanUtils.copyProperties(eduCourseInfoVo, eduCourse);
+        int result = baseMapper.updateById(eduCourse);
+        if (result == 0) {
+            throw new WellParamException(20001, "修改课程信息失败");
+        }
+        EduCourseDescription courseDescription = new EduCourseDescription();
+        courseDescription.setId(eduCourseInfoVo.getId());
+        courseDescription.setDescription(eduCourseInfoVo.getDescription());
+        descriptionService.updateById(courseDescription);
     }
 }

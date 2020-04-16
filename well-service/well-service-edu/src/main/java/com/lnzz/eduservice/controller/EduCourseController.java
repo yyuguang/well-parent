@@ -6,12 +6,9 @@ import com.lnzz.eduservice.pojo.vo.EduCourseInfoVo;
 import com.lnzz.eduservice.service.EduCourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -31,12 +28,29 @@ public class EduCourseController {
 
 
     @ApiOperation(value = "添加课程基本信息", notes = "添加课程基本信息", httpMethod = "POST")
-    @PostMapping("/saveCourseInfo")
-    public JsonResult saveCourseInfo(@RequestBody EduCourseInfoVo vo) {
+    @PostMapping("/save")
+    public JsonResult save(@RequestBody EduCourseInfoVo vo) {
 
         String courseId = eduCourseService.saveCourseInfo(vo);
         return JsonResult.ok().data("courseId", courseId);
     }
+
+    @ApiOperation(value = "通过课程id获取课程信息", notes = "通过课程id获取课程信息", httpMethod = "GET")
+    @GetMapping("/getOneById")
+    public JsonResult getOneById(@ApiParam(name = "courseId", value = "课程id", required = true)
+                                 @RequestParam String courseId) {
+
+        EduCourseInfoVo courseInfoVo = eduCourseService.getCourseInfo(courseId);
+        return JsonResult.ok().data("courseInfoVo", courseInfoVo);
+    }
+
+    @ApiOperation(value = "编辑课程信息", notes = "编辑课程信息", httpMethod = "POST")
+    @PostMapping("/update")
+    public JsonResult update(@RequestBody EduCourseInfoVo eduCourseInfoVo) {
+        eduCourseService.updateCourseInfo(eduCourseInfoVo);
+        return JsonResult.ok();
+    }
+
 
 }
 
