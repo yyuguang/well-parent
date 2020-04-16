@@ -3,6 +3,7 @@ package com.lnzz.eduservice.service;
 import com.lnzz.eduservice.pojo.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lnzz.eduservice.pojo.vo.EduCourseInfoVo;
+import com.lnzz.eduservice.pojo.vo.EduCoursePublishVo;
 
 /**
  * <p>
@@ -36,4 +37,20 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param eduCourseInfoVo
      */
     void updateCourseInfo(EduCourseInfoVo eduCourseInfoVo);
+
+    /**
+     * 根据课程id获取课程发布信息
+     *
+     * @param courseId
+     * @return
+     */
+    EduCoursePublishVo getPublishCourseInfo(String courseId);
+
+    /**
+     * 课程发布
+     *
+     * @param courseId
+     * @return
+     */
+    boolean publishCourseById(String courseId);
 }

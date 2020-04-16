@@ -2,6 +2,8 @@ package com.lnzz.eduservice.mapper;
 
 import com.lnzz.eduservice.pojo.EduCourse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lnzz.eduservice.pojo.vo.EduCoursePublishVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +15,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface EduCourseMapper extends BaseMapper<EduCourse> {
 
+    /**
+     * 根据课程id获取课程发布信息
+     *
+     * @param courseId
+     * @return
+     */
+    EduCoursePublishVo getPublishCourseInfo(@Param("courseId") String courseId);
 }

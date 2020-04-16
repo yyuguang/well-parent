@@ -4,6 +4,7 @@ import com.lnzz.eduservice.pojo.EduCourse;
 import com.lnzz.eduservice.mapper.EduCourseMapper;
 import com.lnzz.eduservice.pojo.EduCourseDescription;
 import com.lnzz.eduservice.pojo.vo.EduCourseInfoVo;
+import com.lnzz.eduservice.pojo.vo.EduCoursePublishVo;
 import com.lnzz.eduservice.service.EduCourseDescriptionService;
 import com.lnzz.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,6 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse> implements EduCourseService {
+    /**
+     * 已发布
+     */
+    private static final String COURSE_NORMAL = "Normal";
+    /**
+     * 未发布
+     */
+    private static final String COURSE_DRAFT = "Draft";
 
     @Autowired
     private EduCourseDescriptionService descriptionService;
@@ -77,5 +86,20 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         courseDescription.setId(eduCourseInfoVo.getId());
         courseDescription.setDescription(eduCourseInfoVo.getDescription());
         descriptionService.updateById(courseDescription);
+    }
+
+    @Override
+    public EduCoursePublishVo getPublishCourseInfo(String courseId) {
+        return baseMapper.getPublishCourseInfo(courseId);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Override
+    public boolean publishCourseById(String courseId) {
+        EduCourse eduCourse = new EduCourse();
+        eduCourse.setId(courseId);
+        eduCourse.setStatus(COURSE_NORMAL);
+        int result = baseMapper.updateById(eduCourse);
+        return result > 0;
     }
 }

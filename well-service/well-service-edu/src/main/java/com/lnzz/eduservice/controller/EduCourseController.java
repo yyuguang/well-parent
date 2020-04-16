@@ -2,7 +2,9 @@ package com.lnzz.eduservice.controller;
 
 
 import com.lnzz.commonutils.JsonResult;
+import com.lnzz.eduservice.pojo.EduCourse;
 import com.lnzz.eduservice.pojo.vo.EduCourseInfoVo;
+import com.lnzz.eduservice.pojo.vo.EduCoursePublishVo;
 import com.lnzz.eduservice.service.EduCourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,6 +53,21 @@ public class EduCourseController {
         return JsonResult.ok();
     }
 
+    @ApiOperation(value = "通过课程id获取课程发布信息", notes = "通过课程id获取课程发布信息", httpMethod = "GET")
+    @GetMapping("/getPublishCourseInfo")
+    public JsonResult getPublishCourseInfo(@ApiParam(name = "courseId", value = "课程id", required = true)
+                                           @RequestParam String courseId) {
+        EduCoursePublishVo data = eduCourseService.getPublishCourseInfo(courseId);
+        return JsonResult.ok().data("data", data);
+    }
+
+    @ApiOperation(value = "课程最终发布", notes = "课程最终发布", httpMethod = "POST")
+    @PostMapping("/publish")
+    public JsonResult publish(@ApiParam(name = "courseId", value = "课程id", required = true)
+                              @RequestParam String courseId) {
+        boolean result = eduCourseService.publishCourseById(courseId);
+        return result ? JsonResult.ok() : JsonResult.error();
+    }
 
 }
 
