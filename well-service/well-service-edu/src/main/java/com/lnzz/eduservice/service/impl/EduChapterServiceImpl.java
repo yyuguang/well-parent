@@ -54,7 +54,7 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 
             List<EduVideoVo> eduVideoVoList = new ArrayList<>();
             for (int j = 0; j < videoList.size(); j++) {
-                EduVideo eduVideo = videoList.get(i);
+                EduVideo eduVideo = videoList.get(j);
                 if (eduVideo.getChapterId().equals(eduChapter.getId())) {
                     EduVideoVo eduVideoVo = new EduVideoVo();
                     BeanUtils.copyProperties(eduVideo, eduVideoVo);
