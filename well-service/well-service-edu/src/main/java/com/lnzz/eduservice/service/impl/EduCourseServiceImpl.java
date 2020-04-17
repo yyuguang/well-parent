@@ -1,14 +1,20 @@
 package com.lnzz.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lnzz.eduservice.pojo.EduCourse;
 import com.lnzz.eduservice.mapper.EduCourseMapper;
 import com.lnzz.eduservice.pojo.EduCourseDescription;
 import com.lnzz.eduservice.pojo.vo.EduCourseInfoVo;
 import com.lnzz.eduservice.pojo.vo.EduCoursePublishVo;
+import com.lnzz.eduservice.pojo.vo.EduCourseQueryVo;
+import com.lnzz.eduservice.service.EduChapterService;
 import com.lnzz.eduservice.service.EduCourseDescriptionService;
 import com.lnzz.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lnzz.eduservice.service.EduVideoService;
 import com.lnzz.servicebase.exceptionhandler.WellParamException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,13 +35,13 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
      * 已发布
      */
     private static final String COURSE_NORMAL = "Normal";
-    /**
-     * 未发布
-     */
-    private static final String COURSE_DRAFT = "Draft";
 
     @Autowired
     private EduCourseDescriptionService descriptionService;
+    @Autowired
+    private EduVideoService eduVideoService;
+    @Autowired
+    private EduChapterService eduChapterService;
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
@@ -100,6 +106,51 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         eduCourse.setId(courseId);
         eduCourse.setStatus(COURSE_NORMAL);
         int result = baseMapper.updateById(eduCourse);
+        return result > 0;
+    }
+
+    @Override
+    public void pageByKeys(Page<EduCourse> coursePage, EduCourseQueryVo queryVo) {
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("gmt_create");
+
+        if (queryVo == null) {
+            baseMapper.selectPage(coursePage, queryWrapper);
+            return;
+        }
+
+        String title = queryVo.getTitle();
+        String teacherId = queryVo.getTeacherId();
+        String subjectParentId = queryVo.getSubjectParentId();
+        String subjectId = queryVo.getSubjectId();
+
+        if (!StringUtils.isEmpty(title)) {
+            queryWrapper.like("title", title);
+        }
+        if (!StringUtils.isEmpty(teacherId)) {
+            queryWrapper.eq("teacher_id", teacherId);
+        }
+        if (!StringUtils.isEmpty(subjectParentId)) {
+            queryWrapper.ge("subject_parent_id", subjectParentId);
+        }
+        if (!StringUtils.isEmpty(subjectId)) {
+            queryWrapper.ge("subject_id", subjectId);
+        }
+        baseMapper.selectPage(coursePage, queryWrapper);
+
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Override
+    public boolean removeCourse(String courseId) {
+
+        eduVideoService.removeVideoByCourseId(courseId);
+
+        eduChapterService.removeChapterByCourseId(courseId);
+
+        descriptionService.removeById(courseId);
+
+        int result = baseMapper.deleteById(courseId);
         return result > 0;
     }
 }

@@ -80,4 +80,12 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
             return result > 0;
         }
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Override
+    public void removeChapterByCourseId(String courseId) {
+        QueryWrapper<EduChapter> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("course_id", courseId);
+        baseMapper.delete(queryWrapper);
+    }
 }

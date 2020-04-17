@@ -1,9 +1,11 @@
 package com.lnzz.eduservice.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lnzz.eduservice.pojo.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lnzz.eduservice.pojo.vo.EduCourseInfoVo;
 import com.lnzz.eduservice.pojo.vo.EduCoursePublishVo;
+import com.lnzz.eduservice.pojo.vo.EduCourseQueryVo;
 
 /**
  * <p>
@@ -53,4 +55,20 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     boolean publishCourseById(String courseId);
+
+    /**
+     * 课程列表分页并带模糊查询
+     *
+     * @param coursePage
+     * @param queryVo
+     */
+    void pageByKeys(Page<EduCourse> coursePage, EduCourseQueryVo queryVo);
+
+    /**
+     * 删除课程
+     *
+     * @param courseId
+     * @return
+     */
+    boolean removeCourse(String courseId);
 }
