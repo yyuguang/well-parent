@@ -5,11 +5,13 @@ import com.aliyun.vod.upload.req.UploadStreamRequest;
 import com.aliyun.vod.upload.resp.UploadStreamResponse;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoResponse;
 import com.lnzz.servicebase.exceptionhandler.WellParamException;
 import com.lnzz.servicevod.service.VodService;
 import com.lnzz.servicevod.utils.ConstantPropertiesUtils;
 import com.lnzz.servicevod.utils.InitVodClient;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * ClassName：VodServiceImpl
@@ -72,6 +75,27 @@ public class VodServiceImpl implements VodService {
             client.getAcsResponse(request);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new WellParamException(20001, "删除阿里云视频失败");
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Override
+    public void removeVideoList(List<String> videoIdList) {
+        try {
+            //初始化
+            DefaultAcsClient client = InitVodClient.initVodClient(ConstantPropertiesUtils.ACCESS_KEY_ID, ConstantPropertiesUtils.ACCESS_KEY_SECRET);
+            //创建请求对象
+            //一次只能批量删20个
+            String str = StringUtils.join(videoIdList.toArray(), ",");
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            request.setVideoIds(str);
+
+            //获取响应
+            DeleteVideoResponse response = client.getAcsResponse(request);
+            log.info("RequestId{}", response.getRequestId());
+
+        } catch (Exception e) {
             throw new WellParamException(20001, "删除阿里云视频失败");
         }
     }

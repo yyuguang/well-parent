@@ -58,7 +58,7 @@ public class EduVideoController {
     @DeleteMapping("/delete")
     public JsonResult delete(@ApiParam(name = "videoId", value = "小节id", required = true)
                              @RequestParam String videoId) {
-        eduVideoService.removeById(videoId);
+        eduVideoService.removeAll(videoId);
         return JsonResult.ok();
     }
 

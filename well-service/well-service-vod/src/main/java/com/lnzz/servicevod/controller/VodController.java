@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * ClassName：VodController
  *
@@ -38,6 +40,16 @@ public class VodController {
                                      @RequestParam String id) {
         vodService.removeAliVideo(id);
         return JsonResult.ok();
+    }
+
+    @ApiOperation(value = "批量删除视频", notes = "批量删除视频", httpMethod = "DELETE")
+    @DeleteMapping("/deleteBatch")
+    public JsonResult removeVideoList(
+            @ApiParam(name = "videoIdList", value = "云端视频id", required = true)
+            @RequestParam("videoIdList") List<String> videoIdList){
+
+        vodService.removeVideoList(videoIdList);
+        return JsonResult.ok().message("视频删除成功");
     }
 
 
