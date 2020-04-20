@@ -7,6 +7,8 @@ import com.lnzz.eduservice.pojo.vo.EduCourseInfoVo;
 import com.lnzz.eduservice.pojo.vo.EduCoursePublishVo;
 import com.lnzz.eduservice.pojo.vo.EduCourseQueryVo;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程 服务类
@@ -71,4 +73,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     boolean removeCourse(String courseId);
+
+    /**
+     * 查询热门课程
+     *
+     * @return
+     */
+    List<EduCourse> selectHotCourse();
 }

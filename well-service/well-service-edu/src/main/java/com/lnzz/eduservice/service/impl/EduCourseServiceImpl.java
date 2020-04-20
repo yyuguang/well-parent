@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程 服务实现类
@@ -152,5 +154,14 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
         int result = baseMapper.deleteById(courseId);
         return result > 0;
+    }
+
+    @Override
+    public List<EduCourse> selectHotCourse() {
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        //根据id倒序查询，实际根据公司业务
+        wrapper.orderByDesc("id");
+        wrapper.last("limit 8");
+        return baseMapper.selectList(wrapper);
     }
 }

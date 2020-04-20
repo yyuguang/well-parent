@@ -15,6 +15,7 @@
         <module>well-service-edu</module>
         <module>well-service-vod</module>
         <module>well-service-oss</module>
+        <module>well-service-cms</module>
     </modules>
 
     <dependencies>

@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * <p>
  * 讲师 服务实现类
@@ -51,5 +53,14 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         }
 
         baseMapper.selectPage(pageParam, wrapper);
+    }
+
+    @Override
+    public List<EduTeacher> selectHotTeacher() {
+        QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
+        //根据id降序查询，实际根据公司业务
+        wrapper.orderByDesc("id");
+        wrapper.last("limit 4");
+        return baseMapper.selectList(wrapper);
     }
 }
