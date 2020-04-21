@@ -1,24 +1,22 @@
-package com.lnzz.msmservice;
+package com.lnzz.ucenterservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * ClassName：MsmApplication
+ * ClassName：CenterApplication
  *
  * @author 冷暖自知
  * @version 1.0
- * @date 2020/4/21 15:06
+ * @date 2020/4/21 16:47
  * @Description
  */
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 @ComponentScan(basePackages = {"com.lnzz"})
-public class MsmApplication {
-
+public class CenterApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MsmApplication.class, args);
+        SpringApplication.run(CenterApplication.class, args);
     }
 
 }

@@ -17,6 +17,7 @@
         <module>well-service-oss</module>
         <module>well-service-cms</module>
         <module>well-service-msm</module>
+        <module>well-service-ucenter</module>
     </modules>
 
     <dependencies>
