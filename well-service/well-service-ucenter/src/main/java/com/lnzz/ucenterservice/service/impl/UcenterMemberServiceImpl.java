@@ -1,6 +1,7 @@
 package com.lnzz.ucenterservice.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lnzz.commonutils.JwtUtils;
 import com.lnzz.commonutils.Md5Util;
 import com.lnzz.servicebase.exceptionhandler.WellParamException;
@@ -8,6 +9,7 @@ import com.lnzz.ucenterservice.pojo.UcenterMember;
 import com.lnzz.ucenterservice.mapper.UcenterMemberMapper;
 import com.lnzz.ucenterservice.pojo.vo.LoginInfoVo;
 import com.lnzz.ucenterservice.pojo.vo.LoginVo;
+import com.lnzz.ucenterservice.pojo.vo.QueryVo;
 import com.lnzz.ucenterservice.pojo.vo.RegisterVo;
 import com.lnzz.ucenterservice.service.UcenterMemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -99,5 +101,36 @@ public class UcenterMemberServiceImpl extends ServiceImpl<UcenterMemberMapper, U
         LoginInfoVo loginInfoVo = new LoginInfoVo();
         BeanUtils.copyProperties(member, loginInfoVo);
         return loginInfoVo;
+    }
+
+    @Override
+    public void pageKeys(Page<UcenterMember> memberPage, QueryVo queryVo) {
+        QueryWrapper<UcenterMember> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("gmt_create");
+
+        if (queryVo == null) {
+            baseMapper.selectPage(memberPage, queryWrapper);
+            return;
+        }
+
+        String mobile = queryVo.getMobile();
+        String begin = queryVo.getBegin();
+        String end = queryVo.getEnd();
+
+        if (!StringUtils.isEmpty(mobile)) {
+            queryWrapper.like("mobile", mobile);
+        }
+        if (!org.springframework.util.StringUtils.isEmpty(begin)) {
+            queryWrapper.ge("gmt_create", begin);
+        }
+        if (!org.springframework.util.StringUtils.isEmpty(end)) {
+            queryWrapper.le("gmt_modified", end);
+        }
+        baseMapper.selectPage(memberPage, queryWrapper);
+    }
+
+    @Override
+    public void disableMemberById(String id) {
+        baseMapper.disableMemberById(id);
     }
 }

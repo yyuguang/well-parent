@@ -1,9 +1,11 @@
 package com.lnzz.ucenterservice.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lnzz.ucenterservice.pojo.UcenterMember;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lnzz.ucenterservice.pojo.vo.LoginInfoVo;
 import com.lnzz.ucenterservice.pojo.vo.LoginVo;
+import com.lnzz.ucenterservice.pojo.vo.QueryVo;
 import com.lnzz.ucenterservice.pojo.vo.RegisterVo;
 
 /**
@@ -38,4 +40,20 @@ public interface UcenterMemberService extends IService<UcenterMember> {
      * @return
      */
     LoginInfoVo getLoginInfo(String memberId);
+
+    /**
+     * 分页模糊查询
+     *
+     * @param memberPage
+     * @param queryVo
+     */
+    void pageKeys(Page<UcenterMember> memberPage, QueryVo queryVo);
+
+    /**
+     * 禁用会员
+     *
+     * @param id
+     * @return
+     */
+    void disableMemberById(String id);
 }

@@ -1,4 +1,4 @@
-package com.lnzz.ucenterservice.controller;
+package com.lnzz.ucenterservice.controller.front;
 
 import com.lnzz.commonutils.JsonResult;
 import com.lnzz.commonutils.JwtUtils;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/eduucenter/edu-ucenter-front")
 @Api(value = "前台注册登录管理", tags = {"前台注册登录管理相关接口"})
-public class UcenterMemberController {
+public class UcenterMemberFrontController {
 
     @Autowired
     private UcenterMemberService memberService;
