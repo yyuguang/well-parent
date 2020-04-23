@@ -3,11 +3,10 @@ package com.lnzz.eduservice.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lnzz.eduservice.pojo.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lnzz.eduservice.pojo.vo.EduCourseInfoVo;
-import com.lnzz.eduservice.pojo.vo.EduCoursePublishVo;
-import com.lnzz.eduservice.pojo.vo.EduCourseQueryVo;
+import com.lnzz.eduservice.pojo.vo.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -88,4 +87,28 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     List<EduCourse> selectByTeacherId(String teacherId);
+
+    /**
+     * 前端课程分页列表
+     *
+     * @param pageParam
+     * @param queryVo
+     * @return
+     */
+    Map<String, Object> pageListWeb(Page<EduCourse> pageParam, EduCourseFrontQueryVo queryVo);
+
+    /**
+     * 前端获取课程信息
+     *
+     * @param id
+     * @return
+     */
+    EduCourseFrontWebVo selectInfoWebById(String id);
+
+    /**
+     * 更新课程浏览数
+     *
+     * @param id
+     */
+    void updatePageViewCount(String id);
 }
