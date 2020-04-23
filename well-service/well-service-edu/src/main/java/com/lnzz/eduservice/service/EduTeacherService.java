@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lnzz.eduservice.pojo.vo.EduTeacherQueryVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,7 +27,16 @@ public interface EduTeacherService extends IService<EduTeacher> {
 
     /**
      * 查询热门讲师
+     *
      * @return
      */
     List<EduTeacher> selectHotTeacher();
+
+    /**
+     * 前端讲师分页查询
+     *
+     * @param pageParam
+     * @return
+     */
+    Map<String, Object> pageListWeb(Page<EduTeacher> pageParam);
 }

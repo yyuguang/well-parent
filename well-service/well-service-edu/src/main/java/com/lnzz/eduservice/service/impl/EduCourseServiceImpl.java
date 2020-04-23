@@ -165,4 +165,17 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         wrapper.last("limit 8");
         return baseMapper.selectList(wrapper);
     }
+
+    @Override
+    public List<EduCourse> selectByTeacherId(String teacherId) {
+
+        QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<EduCourse>();
+
+        queryWrapper.eq("teacher_id", teacherId);
+        //按照最后更新时间倒序排列
+        queryWrapper.orderByDesc("gmt_modified");
+
+        List<EduCourse> courses = baseMapper.selectList(queryWrapper);
+        return courses;
+    }
 }

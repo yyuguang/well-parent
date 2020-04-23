@@ -80,4 +80,12 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return
      */
     List<EduCourse> selectHotCourse();
+
+    /**
+     * 根据讲师id查询讲师所讲课程列表
+     *
+     * @param teacherId
+     * @return
+     */
+    List<EduCourse> selectByTeacherId(String teacherId);
 }
