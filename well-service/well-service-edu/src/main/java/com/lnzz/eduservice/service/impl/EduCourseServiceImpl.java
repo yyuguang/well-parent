@@ -160,6 +160,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     public List<EduCourse> selectHotCourse() {
         QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
         //根据id倒序查询，实际根据公司业务
+        wrapper.eq("status","Normal");
         wrapper.orderByDesc("id");
         wrapper.last("limit 8");
         return baseMapper.selectList(wrapper);
