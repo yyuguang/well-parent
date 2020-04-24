@@ -46,11 +46,19 @@ public class VodController {
     @DeleteMapping("/deleteBatch")
     public JsonResult removeVideoList(
             @ApiParam(name = "videoIdList", value = "云端视频id", required = true)
-            @RequestParam("videoIdList") List<String> videoIdList){
+            @RequestParam("videoIdList") List<String> videoIdList) {
 
         vodService.removeVideoList(videoIdList);
         return JsonResult.ok().message("视频删除成功");
     }
 
 
+    @ApiOperation(value = "获取视频播放凭证", notes = "获取视频播放凭证", httpMethod = "POST")
+    @PostMapping("/getVideoPlayAuth")
+    public JsonResult getVideoPlayAuth(@ApiParam(name = "id", value = "视频id", required = true)
+                                       @RequestParam String id) {
+
+        String playAuth = vodService.getVideoPlayAuth(id);
+        return JsonResult.ok().data("playAuth", playAuth);
+    }
 }

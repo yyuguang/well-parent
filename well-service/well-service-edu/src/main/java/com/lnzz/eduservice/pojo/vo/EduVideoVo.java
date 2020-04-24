@@ -1,5 +1,6 @@
 package com.lnzz.eduservice.pojo.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -16,4 +17,8 @@ public class EduVideoVo {
     private String id;
 
     private String title;
+
+    private String videoSourceId;
+
+    private Boolean isFree;
 }

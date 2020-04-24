@@ -6,6 +6,8 @@ import com.aliyun.vod.upload.resp.UploadStreamResponse;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoResponse;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import com.lnzz.servicebase.exceptionhandler.WellParamException;
 import com.lnzz.servicevod.service.VodService;
 import com.lnzz.servicevod.utils.ConstantPropertiesUtils;
@@ -13,11 +15,8 @@ import com.lnzz.servicevod.utils.InitVodClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -33,7 +32,6 @@ import java.util.List;
 @Slf4j
 public class VodServiceImpl implements VodService {
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public String uploadAliVideo(MultipartFile file) {
         try {
@@ -44,7 +42,7 @@ public class VodServiceImpl implements VodService {
             InputStream inputStream = file.getInputStream();
             UploadStreamRequest request = new UploadStreamRequest(ConstantPropertiesUtils.ACCESS_KEY_ID, ConstantPropertiesUtils.ACCESS_KEY_SECRET, title, fileName, inputStream);
             /* 模板组ID(可选) */
-            request.setTemplateGroupId(ConstantPropertiesUtils.ACCESS_TEMPLATE_GROUPID);
+//            request.setTemplateGroupId(ConstantPropertiesUtils.ACCESS_TEMPLATE_GROUPID);
             UploadVideoImpl uploader = new UploadVideoImpl();
             UploadStreamResponse response = uploader.uploadStream(request);
             log.info("RequestId{}", response.getRequestId());
@@ -64,7 +62,6 @@ public class VodServiceImpl implements VodService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void removeAliVideo(String id) {
         try {
@@ -79,7 +76,6 @@ public class VodServiceImpl implements VodService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void removeVideoList(List<String> videoIdList) {
         try {
@@ -97,6 +93,27 @@ public class VodServiceImpl implements VodService {
 
         } catch (Exception e) {
             throw new WellParamException(20001, "删除阿里云视频失败");
+        }
+    }
+
+    @Override
+    public String getVideoPlayAuth(String id) {
+        try {
+            //创建初始化对象
+            DefaultAcsClient client =
+                    InitVodClient.initVodClient(ConstantPropertiesUtils.ACCESS_KEY_ID, ConstantPropertiesUtils.ACCESS_KEY_SECRET);
+            //创建获取凭证request和response对象
+            GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+            //向request设置视频id
+            request.setVideoId(id);
+            //设置播放凭证的有效期
+            request.setAuthInfoTimeout(200L);
+            //调用方法得到凭证
+            GetVideoPlayAuthResponse response = client.getAcsResponse(request);
+            return response.getPlayAuth();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

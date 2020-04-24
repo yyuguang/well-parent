@@ -182,6 +182,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Override
     public Map<String, Object> pageListWeb(Page<EduCourse> pageParam, EduCourseFrontQueryVo queryVo) {
         QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status", "Normal");
         if (!StringUtils.isEmpty(queryVo.getSubjectParentId())) {
             queryWrapper.eq("subject_parent_id", queryVo.getSubjectParentId());
         }
