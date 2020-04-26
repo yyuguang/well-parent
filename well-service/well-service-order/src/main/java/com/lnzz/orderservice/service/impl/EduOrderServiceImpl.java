@@ -41,7 +41,7 @@ public class EduOrderServiceImpl extends ServiceImpl<EduOrderMapper, EduOrder> i
         order.setCourseId(courseId);
         order.setCourseTitle(courseInfoOrder.getTitle());
         order.setCourseCover(courseInfoOrder.getCover());
-        order.setTeacherName("test");
+        order.setTeacherName(courseInfoOrder.getTeacherName());
         order.setTotalFee(courseInfoOrder.getPrice());
         order.setMemberId(memberIdByJwtToken);
         order.setMobile(memberInfoOrder.getMobile());

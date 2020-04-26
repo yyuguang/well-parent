@@ -48,5 +48,15 @@ public class EduOrderController {
         EduOrder order = eduOrderService.getOne(wrapper);
         return JsonResult.ok().data("item", order);
     }
+
+    @ApiOperation(value = "根据用户id和课程id查询订单信息", notes = "根据用户id和课程id查询订单信息", httpMethod = "GET")
+    @GetMapping("/isBuyCourse")
+    public boolean isBuyCourse(@ApiParam(name = "memberId", value = "会员id", required = true)
+                               @RequestParam String memberId,
+                               @ApiParam(name = "courseId", value = "课程id", required = true)
+                               @RequestParam String courseId) {
+        int count = eduOrderService.count(new QueryWrapper<EduOrder>().eq("member_id", memberId).eq("course_id", courseId).eq("status", 1));
+        return count > 0;
+    }
 }
 

@@ -2,7 +2,9 @@ package com.lnzz.eduservice.controller.front;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lnzz.commonutils.JsonResult;
+import com.lnzz.commonutils.JwtUtils;
 import com.lnzz.commonutils.ordervo.EduCourseOrderVo;
+import com.lnzz.eduservice.client.OrderClient;
 import com.lnzz.eduservice.pojo.EduCourse;
 import com.lnzz.eduservice.pojo.vo.EduChapterVo;
 import com.lnzz.eduservice.pojo.vo.EduCourseFrontQueryVo;
@@ -16,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +38,8 @@ public class CourseFrontController {
     private EduCourseService eduCourseService;
     @Autowired
     private EduChapterService eduChapterService;
+    @Autowired
+    private OrderClient orderClient;
 
     @ApiOperation(value = "课程分页查询", notes = "课程分页查询", httpMethod = "POST")
     @PostMapping("/coursePageList/{pageNum}/{pageSize}")
@@ -52,17 +57,20 @@ public class CourseFrontController {
         return JsonResult.ok().data(map);
     }
 
-    @ApiOperation(value = "课程分页查询", notes = "课程分页查询", httpMethod = "GET")
+    @ApiOperation(value = "根据课程id获取课程详情", notes = "根据课程id获取课程详情", httpMethod = "GET")
     @GetMapping("/getCourseInfoById")
     public JsonResult getCourseInfoById(
             @ApiParam(name = "courseId", value = "课程ID", required = true)
-            @RequestParam("courseId") String courseId) {
+            @RequestParam("courseId") String courseId,
+            HttpServletRequest request) {
         //查询课程信息和讲师信息
         EduCourseFrontWebVo courseWebVo = eduCourseService.selectInfoWebById(courseId);
         //查询当前课程的章节信息
         List<EduChapterVo> chapterVoList = eduChapterService.getChapterAndVideoListByCourseId(courseId);
+        //远程调用，判断课程是否被购买
+        boolean buyCourse = orderClient.isBuyCourse(JwtUtils.getMemberIdByJwtToken(request), courseId);
 
-        return JsonResult.ok().data("course", courseWebVo).data("chapterVoList", chapterVoList);
+        return JsonResult.ok().data("course", courseWebVo).data("chapterVoList", chapterVoList).data("isBuy",buyCourse);
     }
 
     @ApiOperation(value = "订单根据课程id获取课程信息", notes = "订单根据课程id获取课程信息", httpMethod = "POST")

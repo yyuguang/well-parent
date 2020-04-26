@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Description
  */
 @Component
-@FeignClient("/eduservice")
+@FeignClient("well-service-edu")
 public interface EduClient {
 
     /**

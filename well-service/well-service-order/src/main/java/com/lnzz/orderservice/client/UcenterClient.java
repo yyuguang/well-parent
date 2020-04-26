@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @Description
  */
 @Component
-@FeignClient("/eduucenter")
+@FeignClient("well-service-ucenter")
 public interface UcenterClient {
     /**
      * 订单根据会员id获取会员信息
