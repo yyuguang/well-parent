@@ -21,4 +21,12 @@ public interface UcenterMemberMapper extends BaseMapper<UcenterMember> {
      */
     void disableMemberById(@Param("id") String id);
 
+    /**
+     * 查询某一天注册人数
+     *
+     * @param day
+     * @return
+     */
+    Integer countRegisterDay(@Param("day") String day);
+
 }

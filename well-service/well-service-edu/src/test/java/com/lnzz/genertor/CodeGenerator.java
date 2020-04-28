@@ -29,7 +29,7 @@ public class CodeGenerator {
         // 2、全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir("D:\\1.project\\10.education\\code\\well-parent\\well-service\\well-service-edu" + "/src/main/java");
+        gc.setOutputDir("D:\\1.project\\10.education\\code\\well-parent\\well-service\\well-service-statistics" + "/src/main/java");
         gc.setAuthor("冷暖自知");
         //生成后是否打开资源管理器
         gc.setOpen(false);
@@ -58,17 +58,17 @@ public class CodeGenerator {
         // 4、包配置
         PackageConfig pc = new PackageConfig();
         //模块名
-        pc.setModuleName("eduservice");
+        pc.setModuleName("staservice");
         pc.setParent("com.lnzz");
         pc.setController("controller");
-        pc.setEntity("entity");
+        pc.setEntity("pojo");
         pc.setService("service");
         pc.setMapper("mapper");
         mpg.setPackageInfo(pc);
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("edu_teacher");
+        strategy.setInclude("statistics_daily");
         //数据库表映射到实体的命名策略
         strategy.setNaming(NamingStrategy.underline_to_camel);
         //生成实体时去掉表前缀

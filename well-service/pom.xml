@@ -19,6 +19,7 @@
         <module>well-service-msm</module>
         <module>well-service-ucenter</module>
         <module>well-service-order</module>
+        <module>well-service-statistics</module>
     </modules>
 
     <dependencies>

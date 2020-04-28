@@ -65,4 +65,12 @@ public class UcenterMemberAdminController {
         UcenterMember member = ucenterMemberService.getById(id);
         return JsonResult.ok().data("data", member);
     }
+
+    @ApiOperation(value = "查询某一天网站注册人数", notes = "查询某一天网站注册人数", httpMethod = "POST")
+    @PostMapping("/countRegisterDay")
+    public JsonResult countRegisterDay(@ApiParam(name = "day", value = "日期", required = true)
+                                       @RequestParam("day") String day) {
+        Integer count = ucenterMemberService.countRegisterDay(day);
+        return JsonResult.ok().data("count", count);
+    }
 }

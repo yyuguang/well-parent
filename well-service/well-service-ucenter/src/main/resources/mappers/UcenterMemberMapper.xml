@@ -7,4 +7,10 @@
         WHERE
             id = #{id}
     </update>
+
+    <!--查询某一天注册人数-->
+    <select id="countRegisterDay" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ucenter_member uc
+         WHERE DATE(uc.gmt_create)=#{day}
+    </select>
 </mapper>
