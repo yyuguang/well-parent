@@ -5,6 +5,7 @@
     <modules>
         <module>well-service</module>
         <module>well-common</module>
+        <module>well-infrastructure</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -20,6 +20,7 @@
         <module>well-service-ucenter</module>
         <module>well-service-order</module>
         <module>well-service-statistics</module>
+        <module>well-service-acl</module>
     </modules>
 
     <dependencies>
