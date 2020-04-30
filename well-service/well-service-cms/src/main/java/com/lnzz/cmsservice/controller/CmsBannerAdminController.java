@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/educms/cms-banner-admin")
 @Api(value = "首页轮播图后台管理", tags = {"首页轮播图后台管理相关接口"})
-@CrossOrigin
 public class CmsBannerAdminController extends BaseController {
     @Autowired
     private CmsBannerService cmsBannerService;
